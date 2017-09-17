@@ -8,6 +8,7 @@ An enhanced version of the original simple tutorial contour demo - added
 trackbar to vary threshold - so we get to see contour lines at various
 grayscale (between 0 and 255).
 """
+#Changing code combining the contour mask, contour lines and tracking bar
 
 import numpy as np
 import cv2
@@ -46,11 +47,18 @@ while(1):
     if s == 0:
         """ do nothing """
     else:
-        """ re-plot contours """     
+        """ re-plot contours """    
         ret, thresh = cv2.threshold(imgray, t, 255, cv2.THRESH_BINARY)
         image, contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         out_image = cv2.drawContours(out_image, contours, -1, (0, 255, 0), 1, CV_AA)
-
+    
+    imgray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)                                                    #new line - nidhi 
+    ret, thresh = cv2.threshold(imgray, 170, 255, cv2.THRESH_BINARY)                                  #new line - nidhi 
+    image, contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)     #new line - nidhi 
+    img = cv2.drawContours(img, contours, -1, (0, 255, 0), 1)                                         #new line - nidhi 
+    cv2.imshow("Countour Mask", image)                                                                #new line - nidhi 
+    cv2.imshow("Countor Plotter", img)                                                                #new line - nidhi 
+    cv2.waitKey()
     cv2.imshow(window_name, out_image)
     k = cv2.waitKey(1) & 0xFF
     if k == 27:   # hit escape to quit
